@@ -1,6 +1,6 @@
 package com.api.bookstore.library_backend.config;
 
-import com.bookstores.bookstore_be.model.User;
+import com.api.bookstore.library_backend.model.User;
 import com.bookstores.bookstore_be.responsitory.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
