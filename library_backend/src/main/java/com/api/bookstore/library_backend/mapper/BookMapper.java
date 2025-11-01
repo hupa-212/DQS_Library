@@ -1,50 +1,42 @@
 package com.api.bookstore.library_backend.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.api.bookstore.library_backend.dto.request.BookCreationRequest;
+import com.api.bookstore.library_backend.dto.request.BookUpdateRequest;
 import com.api.bookstore.library_backend.dto.response.BookResponse;
-import com.api.bookstore.library_backend.dto.response.CategoryResponse;
 import com.api.bookstore.library_backend.model.Book;
 import com.api.bookstore.library_backend.model.Category;
 
-@Component
-public class BookMapper {
+@Mapper(componentModel = "spring")
+public interface BookMapper {
     
-    public BookResponse toBookResponse(Book book) {
-        CategoryResponse categoryResponse = CategoryResponse.builder()
-                .id(book.getCategory().getId())
-                .name(book.getCategory().getName())
-                .description(book.getCategory().getDescription())
-                .build();
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "quantitySold", ignore = true)
+    @Mapping(target = "orderDetails", ignore = true)
+    @Mapping(target = "category", source = "category")
+    @Mapping(target = "description", source = "bookCreationRequest.description")
+    Book toBook(BookCreationRequest bookCreationRequest, Category category);
 
-        return BookResponse.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .author(book.getAuthor())
-                .isbn(book.getIsbn())
-                .category(categoryResponse)
-                .price(book.getPrice())
-                .description(book.getDescription())
-                .coverImageUrl(book.getCoverImageUrl())
-                .quantity(book.getQuantity())
-                .quantitySold(book.getQuantitySold())
-                .createdAt(book.getCreatedAt())
-                .updatedAt(book.getUpdatedAt())
-                .build();
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "title", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "isbn", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "quantitySold", ignore = true)
+    @Mapping(target = "orderDetails", ignore = true)
+    @Mapping(target = "description", source = "bookUpdateRequest.description")
+    void updateBookFromUpdateRequest(
+            @MappingTarget Book book,
+            BookUpdateRequest bookUpdateRequest,
+            Category category);
 
-    public Book toBook(BookCreationRequest request, Category category) {
-        return Book.builder()
-                .title(request.getTitle())
-                .author(request.getAuthor())
-                .isbn(request.getIsbn())
-                .category(category)
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
-                .quantitySold(0)
-                .description(request.getDescription())
-                .coverImageUrl(request.getCoverImageUrl())
-                .build();
-    }
+    BookResponse toBookResponse(Book book);
 }

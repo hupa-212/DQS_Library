@@ -2,22 +2,25 @@ package com.api.bookstore.library_backend.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import com.api.bookstore.library_backend.dto.request.BookCreationRequest;
+import com.api.bookstore.library_backend.dto.request.BookUpdateRequest;
 import com.api.bookstore.library_backend.dto.response.BookResponse;
 import com.api.bookstore.library_backend.mapper.BookMapper;
 import com.api.bookstore.library_backend.model.Book;
 import com.api.bookstore.library_backend.model.Category;
 import com.api.bookstore.library_backend.repository.BookRepository;
 import com.api.bookstore.library_backend.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)    
 public class BookService {
     BookRepository bookRepository;
     CategoryRepository categoryRepository;
@@ -26,6 +29,10 @@ public class BookService {
     public BookResponse createBook(BookCreationRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.getCategoryId()));
+        
+        if (category.getIsDeleted()) {
+            throw new RuntimeException("Category is deleted. Cannot create book in deleted category.");
+        }
         
         Book book = bookMapper.toBook(request, category);
         book.setIsDeleted(false);
@@ -38,6 +45,7 @@ public class BookService {
         return bookRepository.findAll()
                 .stream()
                 .filter(book -> !book.getIsDeleted())
+                .filter(book -> book.getCategory() != null && !book.getCategory().getIsDeleted())
                 .map(bookMapper::toBookResponse)
                 .collect(Collectors.toList());
     }
@@ -45,13 +53,19 @@ public class BookService {
     public BookResponse getBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+        
         if (book.getIsDeleted()) {
             throw new RuntimeException("Book not found with id: " + id);
         }
+        
+        if (book.getCategory() == null || book.getCategory().getIsDeleted()) {
+            throw new RuntimeException("Book's category is deleted. Book is no longer available.");
+        }
+        
         return bookMapper.toBookResponse(book);
     }
 
-    public BookResponse updateBook(Long id, BookCreationRequest request) {
+    public BookResponse updateBook(Long id, BookUpdateRequest request) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
         
@@ -62,23 +76,26 @@ public class BookService {
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.getCategoryId()));
 
-        book.setTitle(request.getTitle());
-        book.setAuthor(request.getAuthor());
-        book.setIsbn(request.getIsbn());
-        book.setCategory(category);
-        book.setPrice(request.getPrice());
-        book.setQuantity(request.getQuantity());
-        book.setDescription(request.getDescription());
-        book.setCoverImageUrl(request.getCoverImageUrl());
+        if (category.getIsDeleted()) {
+            throw new RuntimeException("Category is deleted. Cannot update book to deleted category.");
+        }
 
+        bookMapper.updateBookFromUpdateRequest(book, request, category);
+        
         Book updatedBook = bookRepository.save(book);
-        log.info("Book updated: {}", updatedBook.getTitle());
+        log.info("Book updated: {} (id: {}) - Only categoryId, price, quantity, description, coverImageUrl updated", 
+                 updatedBook.getTitle(), updatedBook.getId());
         return bookMapper.toBookResponse(updatedBook);
     }
 
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+        
+        if (book.getIsDeleted()) {
+            throw new RuntimeException("Book not found with id: " + id);
+        }
+        
         book.setIsDeleted(true);
         bookRepository.save(book);
         log.info("Book deleted: {}", book.getTitle());
@@ -111,7 +128,9 @@ public class BookService {
     public List<BookResponse> getLowStockBooks(Integer threshold) {
         return bookRepository.findAll()
                 .stream()
-                .filter(book -> !book.getIsDeleted() && book.getQuantity() <= threshold)
+                .filter(book -> !book.getIsDeleted())
+                .filter(book -> book.getCategory() != null && !book.getCategory().getIsDeleted())
+                .filter(book -> book.getQuantity() <= threshold)
                 .map(bookMapper::toBookResponse)
                 .collect(Collectors.toList());
     }

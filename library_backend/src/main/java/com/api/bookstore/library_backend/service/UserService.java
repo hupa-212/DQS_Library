@@ -29,7 +29,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreationRequest request) {
-        // Kiểm tra username đã tồn tại
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -38,7 +37,6 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setIsDeleted(false);
 
-        // Gán CUSTOMER role mặc định nếu không có role
         if (request.getRoleIds() == null || request.getRoleIds().isEmpty()) {
             Role customerRole = roleRepository.findByName("CUSTOMER")
                     .orElseThrow(() -> new RuntimeException("CUSTOMER role not found"));
@@ -46,7 +44,6 @@ public class UserService {
             roles.add(customerRole);
             user.setRoles(roles);
         } else {
-            // Gán roles theo request
             Set<Role> roles = new HashSet<>();
             for (Long roleId : request.getRoleIds()) {
                 Role role = roleRepository.findById(roleId)
