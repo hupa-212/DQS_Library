@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-LibraryBackendApplication<library_backend>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.api.bookstore.library_backend.LibraryBackendApplication",
+      "projectName": "library_backend",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
