@@ -13,6 +13,29 @@ import com.api.bookstore.library_backend.dto.response.ApiResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        String message = ex.getMessage();
+        
+        if (message != null && message.contains("Failed to evaluate expression")) {
+            log.error("SpEL expression error: {}", message);
+            ApiResponse<Object> response = ApiResponse.builder()
+                    .message("Authorization expression error. Access denied.")
+                    .statusCode(HttpStatus.FORBIDDEN.value())
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+        
+        log.error("Illegal argument: {}", message);
+        ApiResponse<Object> response = ApiResponse.builder()
+                .message(message != null ? message : "Invalid argument")
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .data(null)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Object>> handleAccessDenied(AccessDeniedException ex) {
         log.error("Access denied: {}", ex.getMessage());

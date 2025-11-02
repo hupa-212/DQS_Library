@@ -1,8 +1,5 @@
 package com.api.bookstore.library_backend.config;
 
-import com.api.bookstore.library_backend.model.User;
-import com.api.bookstore.library_backend.repository.UserRepository;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +14,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.api.bookstore.library_backend.model.User;
+import com.api.bookstore.library_backend.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;

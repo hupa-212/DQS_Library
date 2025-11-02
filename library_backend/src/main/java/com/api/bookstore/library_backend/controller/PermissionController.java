@@ -1,15 +1,18 @@
 package com.api.bookstore.library_backend.controller;
 
 import java.util.List;
-import com.api.bookstore.library_backend.dto.response.ApiResponse;
-import com.api.bookstore.library_backend.dto.response.PermissionResponse;
-import com.api.bookstore.library_backend.service.PermissionService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import com.api.bookstore.library_backend.dto.response.ApiResponse;
+import com.api.bookstore.library_backend.dto.response.PermissionResponse;
+import com.api.bookstore.library_backend.service.PermissionService;
 
 @RestController
 @RequestMapping("/api/permissions")
@@ -19,6 +22,7 @@ public class PermissionController {
     PermissionService permissionService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")  
     public ResponseEntity<ApiResponse<PermissionResponse>> createPermission(
             @RequestParam String name,
             @RequestParam(required = false) String description) {
@@ -32,6 +36,7 @@ public class PermissionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')") 
     public ResponseEntity<ApiResponse<List<PermissionResponse>>> getAllPermissions() {
         List<PermissionResponse> permissions = permissionService.getAllPermissions();
         ApiResponse<List<PermissionResponse>> response = ApiResponse.<List<PermissionResponse>>builder()
@@ -43,6 +48,7 @@ public class PermissionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") 
     public ResponseEntity<ApiResponse<PermissionResponse>> getPermissionById(@PathVariable Long id) {
         PermissionResponse permission = permissionService.getPermissionById(id);
         ApiResponse<PermissionResponse> response = ApiResponse.<PermissionResponse>builder()

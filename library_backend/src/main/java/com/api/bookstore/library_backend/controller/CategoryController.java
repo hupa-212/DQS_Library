@@ -1,5 +1,4 @@
 package com.api.bookstore.library_backend.controller;
-
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -7,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.api.bookstore.library_backend.dto.request.CategoryCreationRequest;
@@ -26,6 +26,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")  
     public ResponseEntity<ApiResponse<CategoryResponse>> createCategory(
             @Valid @RequestBody CategoryCreationRequest request) {
         CategoryResponse categoryResponse = categoryService.createCategory(request);
@@ -60,6 +61,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")  
     public ResponseEntity<ApiResponse<CategoryResponse>> updateCategory(
             @PathVariable Long id,
             @Valid @RequestBody CategoryUpdateRequest request) {
@@ -73,6 +75,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")  
     public ResponseEntity<ApiResponse<Void>> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         ApiResponse<Void> response = ApiResponse.<Void>builder()
