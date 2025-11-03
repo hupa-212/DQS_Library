@@ -62,7 +62,7 @@ public class SecurityConfig {
                         .requestMatchers("PUT", "/api/permissions/**").hasRole("ADMIN")
                         .requestMatchers("DELETE", "/api/permissions/**").hasRole("ADMIN")
                         
-                        .requestMatchers("POST", "/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("POST", "/api/users/**").permitAll()   
                         .requestMatchers("PUT", "/api/users/**").hasRole("ADMIN")
                         .requestMatchers("DELETE", "/api/users/**").hasRole("ADMIN")
                         
