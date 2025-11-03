@@ -1,14 +1,39 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+
 import Home from '@/pages/home/Home.vue'
+import BookList from '@/pages/book/BookList.vue'
+import AddBook from '@/pages/book/AddBook.vue'
+import UserLayout from '@/layouts/UserLayout.vue'
+
+import AdminLayout from '@/layouts/AdminLayout.vue'
+import AdminHome from '@/pages/home/AdminHome.vue'
+import BookManagement from '@/pages/book/BookManagement.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',         
-      name: 'Home',      
-      component: Home 
-    }
+    path: '/',
+    component: UserLayout,
+    children: [
+      { path: '', component: Home },
+      { path: 'books', name: 'BookList', component: BookList },
+      { path: 'your-books', name: 'AddBook', component: AddBook }
+    ]
+  },
+
+  {
+  path: '/admin',
+  component: AdminLayout,
+  children: [
+    { path: '', name: 'AdminHome', component: AdminHome },
+    { path: 'books-management', name: 'BooksManagement', component: BookManagement },
+  ]
+},
+  // 404 fallback
+  { path: '/:pathMatch(.*)*', redirect: '/' }
+
   ],
 })
 
