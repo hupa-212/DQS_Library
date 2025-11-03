@@ -37,8 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         
                         // GET endpoints - cho phép tất cả (đã authenticate)
-                        .requestMatchers("GET", "/api/categories/**").authenticated()
-                        .requestMatchers("GET", "/api/books/**").authenticated()
+                        .requestMatchers("GET", "/api/categories/**").permitAll()
+                        .requestMatchers("GET", "/api/books/**").permitAll()
                         .requestMatchers("GET", "/api/roles/**").authenticated()
                         .requestMatchers("GET", "/api/permissions/**").authenticated()
                         .requestMatchers("GET", "/api/users/**").authenticated()
