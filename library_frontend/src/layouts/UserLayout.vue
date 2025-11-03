@@ -1,19 +1,13 @@
 <template>
- 
+  <el-header>
+    <Header />
+  </el-header>
 
-        
-      <el-header>
-        <Header />
-      </el-header>
-    
-      <div class = "content">
-        <slot />
-      </div>
-      
-        <Footer />
-    
+  <div class="content">
+    <router-view />
+  </div>
 
- 
+  <Footer />
 </template>
 
 <script lang="ts" setup>
@@ -22,15 +16,10 @@ import Footer from '@/components/common/Footer.vue'
 </script>
 
 <style scoped>
-
-.el-container {
-  padding: 0;
-}
 .content {
   background-color: #f5f5f5;
-
+  min-height: 100%;
   padding: 20px 20px 0 20px;
-
 }
 
 .el-header {
@@ -41,3 +30,4 @@ import Footer from '@/components/common/Footer.vue'
   min-height: 100vh;
 }
 </style>
+
