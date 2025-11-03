@@ -31,13 +31,10 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("Starting data initialization...");
 
-        // 1. Tạo Permissions
         initializePermissions();
 
-        // 2. Tạo Roles
         initializeRoles();
 
-        // 3. Tạo Admin User
         initializeAdminUser();
 
         log.info("Data initialization completed!");
@@ -99,7 +96,6 @@ public class DataInitializer implements CommandLineRunner {
                     .isDeleted(false)
                     .build();
 
-            // Gán tất cả permissions cho ADMIN
             Set<Permission> allPermissions = new HashSet<>(permissionRepository.findAll());
             adminRole.setPermissions(allPermissions);
 
@@ -115,7 +111,6 @@ public class DataInitializer implements CommandLineRunner {
                     .isDeleted(false)
                     .build();
 
-            // Gán permissions cho CUSTOMER
             Set<Permission> customerPermissions = new HashSet<>();
             customerPermissions.add(permissionRepository.findByName("READ_BOOK").orElse(null));
             customerPermissions.add(permissionRepository.findByName("READ_CATEGORY").orElse(null));
@@ -137,7 +132,6 @@ public class DataInitializer implements CommandLineRunner {
                     .isDeleted(false)
                     .build();
 
-            // Gán permissions cho MANAGER
             Set<Permission> managerPermissions = new HashSet<>();
             managerPermissions.add(permissionRepository.findByName("READ_BOOK").orElse(null));
             managerPermissions.add(permissionRepository.findByName("CREATE_BOOK").orElse(null));
@@ -170,7 +164,6 @@ public class DataInitializer implements CommandLineRunner {
                     .isDeleted(false)
                     .build();
 
-            // Gán ADMIN role
             Role adminRole = roleRepository.findByName("ADMIN")
                     .orElseThrow(() -> new RuntimeException("ADMIN role not found"));
 
