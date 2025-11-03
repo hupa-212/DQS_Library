@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import UserLayout from '@/layouts/UserLayout.vue';
+
 </script>
 
 <template>
-  <UserLayout>
-    <router-view />
-  </UserLayout>
+
+  <router-view />
 </template>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
 * {
@@ -19,15 +17,12 @@ import UserLayout from '@/layouts/UserLayout.vue';
   font-style: normal;
   font-variation-settings: "wdth" 100;
   padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-html, body, #app, .common-layout ,.el-container {
+html, body, #app {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
-
-
-
 </style>

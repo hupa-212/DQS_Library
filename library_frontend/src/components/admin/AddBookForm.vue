@@ -46,9 +46,13 @@
           </div>
         </el-form-item>
 
-        <!-- Price -->
+        <!-- ✅ Price (formatted with commas and VND) -->
         <el-form-item label="Price" prop="price">
-          <el-input-number v-model="form.price" :min="0.01" :step="0.01" />
+          <el-input
+            v-model="displayPrice"
+            placeholder="Enter price"
+            @input="handlePriceInput"
+          />
         </el-form-item>
 
         <!-- Quantity -->
@@ -108,6 +112,23 @@ const form = ref<BookForm>({
   coverImageUrl: '',
 })
 
+// ✅ Biến hiển thị giá tiền (chuỗi format)
+const displayPrice = ref('')
+
+// Hàm xử lý format khi nhập giá
+function handlePriceInput(value: string) {
+  // Bỏ ký tự không phải số
+  const rawValue = value.replace(/[^\d]/g, '')
+
+  // Gán giá trị thực cho form (backend nhận giá này)
+  form.value.price = Number(rawValue)
+
+  // Format hiển thị (ví dụ: 20,000 VND)
+  displayPrice.value = rawValue
+  ? new Intl.NumberFormat('vi-VN').format(Number(rawValue)) + ' VND'
+  : ''
+}
+
 const categories = ref<{ id: number; name: string }[]>([])
 const formRef = ref()
 
@@ -127,7 +148,7 @@ const rules = {
   categoryName: [{ required: true, message: 'Please select or type category', trigger: 'change' }],
   price: [
     { required: true, message: 'Please input price', trigger: 'blur' },
-    { type: 'number', min: 0.01, message: 'Price must be at least 0.01' },
+    { type: 'number', min: 1, message: 'Price must be at least 1' },
   ],
   quantity: [
     { required: true, message: 'Please input quantity', trigger: 'blur' },
@@ -158,30 +179,29 @@ const isNewCategory = computed(() => {
 
 // Submit
 const submitForm = () => {
-
   (formRef.value as any).validate(async (valid: boolean) => {
     if (!valid) {
-      console.warn("❌ Form validation failed!");
-      return;
+      console.warn("❌ Form validation failed!")
+      return
     }
 
     try {
-      let categoryId: number;
+      let categoryId: number
 
       if (isNewCategory.value) {
-        console.log("🆕 Creating new category:", form.value.categoryName);
-        const newCategory = await createCategory({ name: form.value.categoryName });
-        console.log("✅ New category created:", newCategory.data);
-        categoryId = newCategory.data.id;
-        ElMessage.info(`New category "${form.value.categoryName}" created automatically`);
+        console.log("🆕 Creating new category:", form.value.categoryName)
+        const newCategory = await createCategory({ name: form.value.categoryName })
+        console.log("✅ New category created:", newCategory.data)
+        categoryId = newCategory.data.id
+        ElMessage.info(`New category "${form.value.categoryName}" created automatically`)
       } else {
-        const existing = categories.value.find(c => c.name === form.value.categoryName);
+        const existing = categories.value.find(c => c.name === form.value.categoryName)
         if (!existing) {
-          console.error("⚠️ Category not found:", form.value.categoryName);
-          return;
+          console.error("⚠️ Category not found:", form.value.categoryName)
+          return
         }
-        console.log("📚 Existing category found:", existing);
-        categoryId = existing.id;
+        console.log("📚 Existing category found:", existing)
+        categoryId = existing.id
       }
 
       const bookPayload = {
@@ -193,24 +213,23 @@ const submitForm = () => {
         quantity: form.value.quantity,
         description: form.value.description,
         coverImageUrl: form.value.coverImageUrl,
-      };
+      }
 
-      const res = await createBook(bookPayload);
+      const res = await createBook(bookPayload)
 
-      ElMessage.success("Book added successfully!");
-      resetForm();
-
-      categories.value = await getCategories();
+      ElMessage.success("Book added successfully!")
+      resetForm()
+      categories.value = await getCategories()
     } catch (err) {
-      console.error("❌ Error while adding book:", err);
-      ElMessage.error("Failed to add book");
+      console.error("❌ Error while adding book:", err)
+      ElMessage.error("Failed to add book")
     }
-  });
-};
-
+  })
+}
 
 const resetForm = () => {
   (formRef.value as any).resetFields()
+  displayPrice.value = '' // ✅ Reset luôn cả phần hiển thị giá
 }
 </script>
 
