@@ -91,7 +91,7 @@ A modern library bookstore built with **Spring Boot** (Backend) and **Vue 3 + Ty
 | Spring Security | Latest  | Authentication & authorization |
 | Spring Data JPA | Latest  | ORM & database queries         |
 | MySQL           | 8.0+    | Database                       |
-| JWT             | -       | Token-based authentication     |
+| JWT             | Latest  | Token-based authentication     |
 | Lombok          | 1.18.30 | Reduce boilerplate code        |
 | MapStruct       | 1.6.3   | DTO Mapping                    |
 
@@ -941,7 +941,7 @@ A: Find in SecurityConfig.java, change the expiration value.
 
 <div align="center">
 
-Made with ❤️ by [Your Team]
+Made with ❤️ by [DQS Team]
 
 ⭐ Star us on GitHub if you find this helpful!
 
