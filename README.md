@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Library System](https://img.shields.io/badge/Library-Management%20System-blue)
+![Library System](https://img.shields.io/badge/Library-Bookstore-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-green)
 ![Vue](https://img.shields.io/badge/Vue-3.5.22-4FC08D)
