@@ -76,9 +76,15 @@
 
         <!-- Buttons -->
         <el-form-item>
-          <el-button type="primary" @click="submitForm">Add Book</el-button>
-          <el-button @click="resetForm">Reset</el-button>
-        </el-form-item>
+        <el-button
+          type="primary"
+          :disabled="!isFormValid"
+          @click="submitForm"
+        >
+          Add Book
+        </el-button>
+        <el-button @click="resetForm">Reset</el-button>
+      </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -112,10 +118,8 @@ const form = ref<BookForm>({
   coverImageUrl: '',
 })
 
-// ✅ Biến hiển thị giá tiền (chuỗi format)
 const displayPrice = ref('')
 
-// Hàm xử lý format khi nhập giá
 function handlePriceInput(value: string) {
   // Bỏ ký tự không phải số
   const rawValue = value.replace(/[^\d]/g, '')
@@ -161,6 +165,17 @@ const rules = {
   description: [{ max: 1000, message: 'Description too long', trigger: 'blur' }],
 }
 
+const isFormValid = computed(() => {
+  return (
+    form.value.title.trim() !== '' &&
+    form.value.author.trim() !== '' &&
+    form.value.isbn.trim() !== '' &&
+    form.value.categoryName.trim() !== '' &&
+    form.value.price > 0 &&
+    form.value.quantity >= 0
+  )
+})
+
 // Load categories
 onMounted(async () => {
   try {
@@ -171,7 +186,6 @@ onMounted(async () => {
   }
 })
 
-// Check if user is creating a new category
 const isNewCategory = computed(() => {
   if (!form.value.categoryName) return false
   return !categories.value.some(c => c.name === form.value.categoryName)
@@ -229,7 +243,7 @@ const submitForm = () => {
 
 const resetForm = () => {
   (formRef.value as any).resetFields()
-  displayPrice.value = '' // ✅ Reset luôn cả phần hiển thị giá
+  displayPrice.value = '' 
 }
 </script>
 

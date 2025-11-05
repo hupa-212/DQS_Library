@@ -8,7 +8,7 @@
 
         <el-table
           v-loading="loading"
-          :data="books"
+          :data="paginatedBooks"
           border
           stripe
           style="width: 100%"
@@ -34,29 +34,49 @@
           </el-table-column>
         </el-table>
 
+        <!-- Pagination -->
+        <div class="pagination-container">
+          <el-pagination
+            background
+            layout="prev, pager, next, jumper"
+            :page-size="pageSize"
+            :total="books.length"
+            v-model:current-page="currentPage"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import AdminMenu from '@/components/admin/AdminMenu.vue'
 
 const books = ref<any[]>([])
 const loading = ref(true)
 
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+
+const paginatedBooks = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return books.value.slice(start, end)
+})
+
 onMounted(async () => {
   try {
     const response = await axios.get('http://localhost:8080/api/books')
-    // API trả về: { message, statusCode, data: [BookResponse] }
     books.value = response.data.data.map((b: any) => ({
       ...b,
-      categoryName: b.category?.name || 'Không rõ'
+      categoryName: b.category?.name || 'None'
     }))
   } catch (error) {
-    console.error('Lỗi khi tải danh sách sách:', error)
+    console.error('Error when loading:', error)
   } finally {
     loading.value = false
   }
@@ -97,5 +117,11 @@ onMounted(async () => {
   height: 80px;
   object-fit: cover;
   border-radius: 4px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 </style>
