@@ -49,6 +49,7 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 ## 🚀 Features
 
 ### 📖 Book Management
+
 - ✨ CRUD (Create, Read, Update, Delete) operations
 - 🔍 Advanced search with filtering by category, author, price
 - 📊 Inventory management
@@ -56,6 +57,7 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 - 📸 Upload book cover images
 
 ### 👥 User Management
+
 - 📝 New account registration
 - 🔐 Secure login with JWT Token
 - 👤 View & update personal profile
@@ -63,12 +65,14 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 - 🗑️ Soft delete for users
 
 ### 📦 Order Management
+
 - 📋 Create new orders
 - 🔍 View order history
 - 📊 Detailed order information
 - 💰 Automatic total price calculation
 
 ### 🎨 User Interface
+
 - 📱 Responsive design (Mobile, Tablet, Desktop)
 - ⚡ Smooth experience with Vite
 - 🎨 Beautiful UI with Element Plus
@@ -79,41 +83,45 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 ## 🛠️ Technologies Used
 
 ### Backend
-| Technology | Version | Description |
-|-----------|---------|--------|
-| Java | 21 | Programming language |
-| Spring Boot | 3.5.7 | Web framework |
-| Spring Security | Latest | Authentication & authorization |
-| Spring Data JPA | Latest | ORM & database queries |
-| MySQL | 8.0+ | Database |
-| JWT | - | Token-based authentication |
-| Lombok | 1.18.30 | Reduce boilerplate code |
-| MapStruct | 1.6.3 | DTO Mapping |
+
+| Technology      | Version | Description                    |
+| --------------- | ------- | ------------------------------ |
+| Java            | 21      | Programming language           |
+| Spring Boot     | 3.5.7   | Web framework                  |
+| Spring Security | Latest  | Authentication & authorization |
+| Spring Data JPA | Latest  | ORM & database queries         |
+| MySQL           | 8.0+    | Database                       |
+| JWT             | -       | Token-based authentication     |
+| Lombok          | 1.18.30 | Reduce boilerplate code        |
+| MapStruct       | 1.6.3   | DTO Mapping                    |
 
 ### Frontend
-| Technology | Version | Description |
-|-----------|---------|--------|
-| Vue.js | 3.5.22 | Progressive JavaScript framework |
-| TypeScript | ~5.9.0 | Typed JavaScript |
-| Vite | 7.1.11 | Next-gen build tool |
-| Element Plus | 2.11.5 | Vue 3 UI Component Library |
-| Vue Router | 4.6.3 | Official router |
-| Pinia | 3.0.3 | State management |
-| Axios | 1.13.1 | HTTP client |
-| ESLint | 9.37.0 | Code quality |
-| Prettier | 3.6.2 | Code formatter |
+
+| Technology   | Version | Description                      |
+| ------------ | ------- | -------------------------------- |
+| Vue.js       | 3.5.22  | Progressive JavaScript framework |
+| TypeScript   | ~5.9.0  | Typed JavaScript                 |
+| Vite         | 7.1.11  | Next-gen build tool              |
+| Element Plus | 2.11.5  | Vue 3 UI Component Library       |
+| Vue Router   | 4.6.3   | Official router                  |
+| Pinia        | 3.0.3   | State management                 |
+| Axios        | 1.13.1  | HTTP client                      |
+| ESLint       | 9.37.0  | Code quality                     |
+| Prettier     | 3.6.2   | Code formatter                   |
 
 ---
 
 ## 📋 System Requirements
 
 ### Backend
+
 - **Java 21** or higher
 - **Maven 3.6+** (or use included Maven Wrapper)
 - **MySQL 8.0+**
 - **Git**
 
 ### Frontend
+
 - **Node.js** 20.19.0 or ≥ 22.12.0
 - **npm** 10.0+
 - **Modern Browser** (Chrome, Firefox, Safari, Edge)
@@ -125,12 +133,14 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 ### 🔧 Quick Start (Fastest Way)
 
 #### Step 1: Clone Repository
+
 ```bash
 git clone https://github.com/hupa-212/DQS_Library.git
 cd DQS_Library
 ```
 
 #### Step 2: Setup Backend
+
 ```bash
 cd library_backend
 
@@ -149,6 +159,7 @@ cd library_backend
 Backend runs at: **http://localhost:8080**
 
 #### Step 3: Setup Frontend
+
 ```bash
 cd ../library_frontend
 
@@ -168,22 +179,25 @@ Frontend runs at: **http://localhost:5173**
 #### Backend - Detailed Steps
 
 **1. Clone & Navigate**
+
 ```bash
 git clone https://github.com/hupa-212/DQS_Library.git
 cd DQS_Library/library_backend
 ```
 
 **2. Configure Database**
+
 ```sql
 -- Create database
 CREATE DATABASE bookstore_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Or with different root password
-CREATE DATABASE bookstore_db 
+CREATE DATABASE bookstore_db
 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 **3. Configure Application Properties**
+
 ```bash
 # Open file: src/main/resources/application.properties
 ```
@@ -209,6 +223,7 @@ jwt.signer-key=ZTy3D5rFgCTLP/oJgc5XvFmQHx2k4UB7ncZmWOPXpsLv66FuwjeQ7qfo7sLw8IcH
 ```
 
 **4. Build & Run**
+
 ```bash
 # Build project (first time will download dependencies)
 ./mvnw clean build
@@ -223,6 +238,7 @@ java -jar target/bookstore_be-0.0.1-SNAPSHOT.jar
 #### Frontend - Detailed Steps
 
 **1. Navigate & Install**
+
 ```bash
 cd library_frontend
 
@@ -231,6 +247,7 @@ npm install
 ```
 
 **2. Configure API URL** (optional)
+
 ```bash
 # Open: src/api/bookAPI.ts
 
@@ -239,6 +256,7 @@ const API_BASE_URL = 'http://localhost:8080/api'
 ```
 
 **3. Run Development Server**
+
 ```bash
 npm run dev
 
@@ -248,6 +266,7 @@ npm run dev
 ```
 
 **4. Build Production** (when ready to deploy)
+
 ```bash
 npm run build
 
@@ -358,6 +377,7 @@ DQS_Library/
 ## 🔌 API Endpoints
 
 ### 🔐 Authentication
+
 ```http
 POST   /api/auth/register          Register new account
 POST   /api/auth/login             Login
@@ -365,6 +385,7 @@ POST   /api/auth/refresh           Refresh token
 ```
 
 ### 📚 Books
+
 ```http
 GET    /api/books                  Get book list (paginated)
 GET    /api/books/{id}             Get book details
@@ -376,6 +397,7 @@ GET    /api/books/category/{categoryId}  Get books by category
 ```
 
 ### 🏷️ Categories
+
 ```http
 GET    /api/categories             Get all categories
 GET    /api/categories/{id}        Get category details
@@ -385,6 +407,7 @@ DELETE /api/categories/{id}        Delete category (Admin)
 ```
 
 ### 👥 Users
+
 ```http
 GET    /api/users                  Get user list (Admin)
 GET    /api/users/{id}             Get user details
@@ -394,6 +417,7 @@ DELETE /api/users/{id}             Delete user (Admin)
 ```
 
 ### 🔑 Roles & Permissions
+
 ```http
 GET    /api/roles                  Get all roles
 GET    /api/roles/{id}             Get role details
@@ -406,6 +430,7 @@ POST   /api/permissions            Create permission (Admin)
 ```
 
 ### 📦 Orders
+
 ```http
 GET    /api/orders                 Get order list
 GET    /api/orders/{id}            Get order details
@@ -455,18 +480,18 @@ DELETE /api/orders/{id}            Delete order
 
 ### Default Roles
 
-| Role | Permissions | Description |
-|--------|-------|--------|
-| **ADMIN** | ✅ Full access | Administrator - Access all functions |
-| **USER** | ✅ Limited | Regular user - View/manage own data |
-| **GUEST** | ⚠️ Very limited | Guest - View books only |
+| Role      | Permissions     | Description                          |
+| --------- | --------------- | ------------------------------------ |
+| **ADMIN** | ✅ Full access  | Administrator - Access all functions |
+| **USER**  | ✅ Limited      | Regular user - View/manage own data  |
+| **GUEST** | ⚠️ Very limited | Guest - View books only              |
 
 ### Demo Accounts
 
-| Role | Email | Password |
-|--------|-------|----------|
+| Role  | Email               | Password |
+| ----- | ------------------- | -------- |
 | ADMIN | admin@bookstore.com | admin123 |
-| USER | user@bookstore.com | user123 |
+| USER  | user@bookstore.com  | user123  |
 
 ---
 
@@ -475,6 +500,7 @@ DELETE /api/orders/{id}            Delete order
 ### 👨‍💼 For Administrators
 
 #### 1. Admin Login
+
 ```
 URL: http://localhost:5173
 Email: admin@bookstore.com
@@ -482,6 +508,7 @@ Password: admin123
 ```
 
 #### 2. Manage Books
+
 - Navigate: **Admin Menu** → **Books Management**
 - Add new book: Click **Add Book** → Fill form
 - View list: Click **List Books**
@@ -489,32 +516,38 @@ Password: admin123
 - Delete: Click **Delete** (soft delete)
 
 #### 3. Manage Categories
+
 - Navigate: **Admin Menu** → **Categories**
 - CRUD categories same as books
 
 #### 4. Manage Users
+
 - Navigate: **Admin Menu** → **Users**
 - View list, manage roles, delete users
 
 ### 👤 For Regular Users
 
 #### 1. Register Account
+
 - Click **Register** on home page
 - Fill form: Email, Username, Password
 - Click **Register**
 
 #### 2. Login
+
 - Click **Login**
 - Enter Email & Password
 - Click **Login**
 
 #### 3. Browse Books
+
 - Home page displays book list
 - Use **Search Bar** to find
 - Use **Filters** to filter by category, price
 - Click book to view details
 
 #### 4. Create Orders
+
 - View book details → Click **Add to Order**
 - Go to **My Orders** to view orders
 
@@ -523,23 +556,27 @@ Password: admin123
 ## 🧪 Testing
 
 ### Backend - Unit Tests
+
 ```bash
 cd library_backend
 ./mvnw test
 ```
 
 ### Backend - Integration Tests
+
 ```bash
 ./mvnw verify
 ```
 
 ### Frontend - Unit Tests (if available)
+
 ```bash
 cd library_frontend
 npm run test
 ```
 
 ### API Testing with Postman
+
 ```
 1. Open Postman
 2. Import file: postman/Library_API.postman_collection.json
@@ -554,6 +591,7 @@ npm run test
 ### ❌ Backend Issues
 
 #### Error: "Cannot connect to database"
+
 ```bash
 ✅ Check MySQL is running:
    - Windows: services.msc → MySQL80 (or your version)
@@ -567,6 +605,7 @@ npm run test
 ```
 
 #### Error: "Port 8080 already in use"
+
 ```bash
 # Find process using port 8080
 netstat -ano | findstr :8080
@@ -579,6 +618,7 @@ server.port=8081
 ```
 
 #### Error: "JWT Token Invalid"
+
 ```bash
 ✅ Check token format: "Bearer <token>" (not "bearer")
 ✅ Check token expiration
@@ -588,6 +628,7 @@ server.port=8081
 ### ❌ Frontend Issues
 
 #### Error: "Cannot GET /api/books"
+
 ```bash
 ✅ Check backend is running (http://localhost:8080)
 ✅ Check API URL correct in src/api/bookAPI.ts
@@ -595,11 +636,13 @@ server.port=8081
 ```
 
 #### Error: "Port 5173 already in use"
+
 ```bash
 npm run dev -- --port 5174
 ```
 
 #### Error: "Module not found"
+
 ```bash
 # Delete node_modules and reinstall
 rm -rf node_modules package-lock.json
@@ -607,6 +650,7 @@ npm install
 ```
 
 #### Error: "Blank page after login"
+
 ```bash
 ✅ Check browser console (F12)
 ✅ Check token saved in localStorage
@@ -618,12 +662,14 @@ npm install
 ## 📚 Additional Documentation
 
 ### Backend
+
 - [Spring Boot Official Docs](https://spring.io/projects/spring-boot)
 - [Spring Security Guide](https://spring.io/projects/spring-security)
 - [Spring Data JPA Reference](https://spring.io/projects/spring-data-jpa)
 - [JWT Token Reference](https://jwt.io/)
 
 ### Frontend
+
 - [Vue 3 Documentation](https://vuejs.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Vite Official Guide](https://vitejs.dev/guide/)
@@ -632,6 +678,7 @@ npm install
 - [Pinia State Management](https://pinia.vuejs.org/)
 
 ### Database
+
 - [MySQL Official Docs](https://dev.mysql.com/doc/)
 - [Hibernate ORM Guide](https://hibernate.org/orm/documentation/)
 
@@ -640,6 +687,7 @@ npm install
 ## 📝 Main Scripts
 
 ### Backend Scripts
+
 ```bash
 # Development
 ./mvnw spring-boot:run              # Run application
@@ -658,6 +706,7 @@ npm install
 ```
 
 ### Frontend Scripts
+
 ```bash
 # Development
 npm run dev                         # Start dev server
@@ -681,6 +730,7 @@ npm run preview                     # Preview production build
 ## 🎓 Main Models / Entities
 
 ### User
+
 ```typescript
 {
   id: number
@@ -697,24 +747,26 @@ npm run preview                     # Preview production build
 ```
 
 ### Book
+
 ```typescript
 {
-  id: number
-  title: string
-  author: string
-  isbn: string
-  description: string
-  price: number
-  quantity: number
-  coverImageUrl: string
-  category: Category       // Many-to-One
-  createdAt: Date
-  updatedAt: Date
-  isDeleted: boolean
+  id: number;
+  title: string;
+  author: string;
+  isbn: string;
+  description: string;
+  price: number;
+  quantity: number;
+  coverImageUrl: string;
+  category: Category; // Many-to-One
+  createdAt: Date;
+  updatedAt: Date;
+  isDeleted: boolean;
 }
 ```
 
 ### Category
+
 ```typescript
 {
   id: number
@@ -727,6 +779,7 @@ npm run preview                     # Preview production build
 ```
 
 ### Order
+
 ```typescript
 {
   id: number
@@ -740,6 +793,7 @@ npm run preview                     # Preview production build
 ```
 
 ### Role
+
 ```typescript
 {
   id: number
@@ -758,22 +812,26 @@ We welcome community contributions!
 ### How to Contribute
 
 1. **Fork the repository**
+
    ```bash
    git clone https://github.com/hupa-212/DQS_Library.git
    ```
 
 2. **Create feature branch**
+
    ```bash
    git checkout -b feature/AmazingFeature
    ```
 
 3. **Commit changes**
+
    ```bash
    git add .
    git commit -m 'Add some AmazingFeature'
    ```
 
 4. **Push to branch**
+
    ```bash
    git push origin feature/AmazingFeature
    ```
@@ -805,10 +863,12 @@ copies of the Software...
 ## 👥 Authors & Contributors
 
 ### Core Team
+
 - **Huỳnh Minh Trí** (@hupa-212) - Lead Developer
 - **Your Team Members** - Frontend/Backend Developers
 
 ### Contributors
+
 Thanks to everyone who contributed to this project!
 
 ---
@@ -816,6 +876,7 @@ Thanks to everyone who contributed to this project!
 ## 📞 Contact & Support
 
 ### Get in Touch
+
 - 📧 **Email:** your-email@example.com
 - 🐛 **Bug Reports:** [GitHub Issues](https://github.com/hupa-212/DQS_Library/issues)
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/hupa-212/DQS_Library/discussions)
@@ -824,7 +885,8 @@ Thanks to everyone who contributed to this project!
 ### FAQ
 
 **Q: How to reset database?**
-A: 
+A:
+
 ```sql
 DROP DATABASE bookstore_db;
 CREATE DATABASE bookstore_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -849,19 +911,20 @@ A: Find in SecurityConfig.java, change the expiration value.
 
 ## 📊 Project Status
 
-| Component | Status | Progress |
-|-----------|--------|----------|
-| Backend API | ✅ Active | 80% |
-| Frontend UI | ✅ Active | 75% |
-| Documentation | ✅ In Progress | 90% |
-| Testing | 🔄 In Progress | 50% |
-| Deployment | 📋 Planning | 20% |
+| Component     | Status         | Progress |
+| ------------- | -------------- | -------- |
+| Backend API   | ✅ Active      | 80%      |
+| Frontend UI   | ✅ Active      | 75%      |
+| Documentation | ✅ In Progress | 90%      |
+| Testing       | 🔄 In Progress | 50%      |
+| Deployment    | 📋 Planning    | 20%      |
 
 ---
 
 ## 🗓️ Changelog
 
 ### v1.0.0 (November 2025)
+
 - ✨ Initial release
 - 📚 Basic CRUD operations for Books
 - 👥 User authentication & authorization
