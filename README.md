@@ -1,15 +1,15 @@
-# 📚 Library Management System
+# 📚 Library Bookstore
 
 <div align="center">
 
-![Library System](https://img.shields.io/badge/Library-Management%20System-blue)
+![Library System](https://img.shields.io/badge/Library-Bookstore-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-green)
 ![Vue](https://img.shields.io/badge/Vue-3.5.22-4FC08D)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
-A modern library management system built with **Spring Boot** (Backend) and **Vue 3 + TypeScript** (Frontend).
+A modern library bookstore built with **Spring Boot** (Backend) and **Vue 3 + TypeScript** (Frontend).
 
 [Features](#-features) • [Installation](#-installation--run) • [API](#-api-endpoints) • [Documentation](#-additional-documentation)
 
@@ -35,7 +35,7 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 
 ## 🎯 Introduction
 
-**Library Management System** is a comprehensive solution for managing a digital library, including:
+**Library bookstore** is a comprehensive solution for managing a digital library, including:
 
 - ✅ **Book Management** - Add, edit, delete, search books
 - ✅ **Category Management** - Categorize books
@@ -91,7 +91,7 @@ A modern library management system built with **Spring Boot** (Backend) and **Vu
 | Spring Security | Latest  | Authentication & authorization |
 | Spring Data JPA | Latest  | ORM & database queries         |
 | MySQL           | 8.0+    | Database                       |
-| JWT             | -       | Token-based authentication     |
+| JWT             | Latest  | Token-based authentication     |
 | Lombok          | 1.18.30 | Reduce boilerplate code        |
 | MapStruct       | 1.6.3   | DTO Mapping                    |
 
@@ -928,7 +928,7 @@ A: Find in SecurityConfig.java, change the expiration value.
 - ✨ Initial release
 - 📚 Basic CRUD operations for Books
 - 👥 User authentication & authorization
-- 🛒 Order management system
+- 🛒 Order bookstore
 - 🎨 Responsive UI with Vue 3
 
 ---
@@ -941,7 +941,7 @@ A: Find in SecurityConfig.java, change the expiration value.
 
 <div align="center">
 
-Made with ❤️ by [Your Team]
+Made with ❤️ by [DQS Team]
 
 ⭐ Star us on GitHub if you find this helpful!
 
