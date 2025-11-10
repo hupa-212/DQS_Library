@@ -37,7 +37,7 @@ public class BookCreationRequest {
     private Double price;
 
     @NotNull(message = "Quantity is required")
-    @Min(value = 0, message = "Quantity cannot be negative")
+    @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
