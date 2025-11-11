@@ -12,6 +12,15 @@ import jakarta.validation.constraints.*;
 @NoArgsConstructor
 public class BookUpdateRequest {
     
+    @NotBlank(message = "Title is required")
+    private String title;
+
+    @NotBlank(message = "Author is required")
+    private String author;
+
+    @NotBlank(message = "ISBN is required")
+    private String isbn;
+
     @NotNull(message = "Category ID is required")
     @Positive(message = "Category ID must be positive")
     private Long categoryId;

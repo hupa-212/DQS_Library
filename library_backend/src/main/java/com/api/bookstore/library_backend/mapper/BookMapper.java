@@ -24,9 +24,9 @@ public interface BookMapper {
     Book toBook(BookCreationRequest bookCreationRequest, Category category);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "title", ignore = true)
-    @Mapping(target = "author", ignore = true)
-    @Mapping(target = "isbn", ignore = true)
+    @Mapping(target = "title")
+    @Mapping(target = "author")
+    @Mapping(target = "isbn")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
