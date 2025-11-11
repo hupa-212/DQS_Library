@@ -13,6 +13,7 @@ import ManageListBook from '@/pages/book/ManageListBook.vue'
 import LoginForm from '../components/login/LoginForm.vue'
 import RegisterForm from '../components/login/RegisterForm.vue'
 import BookDetail from '@/pages/book/BookDetail.vue'
+import CategoryManagement from '@/pages/book/CategoryManagement.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,7 @@ const router = createRouter({
         { path: '', name: 'AdminHome', component: AdminHome },
         { path: 'books-management', name: 'BooksManagement', component: BookManagement },
         { path: 'books-management/list-books', name: 'ListBooks', component: ManageListBook },
+        {path: 'books-management/categories', name: 'CategoryList', component: CategoryManagement},
       ],
     },
     {
