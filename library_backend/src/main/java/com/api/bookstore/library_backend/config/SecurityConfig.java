@@ -41,7 +41,6 @@ public class SecurityConfig {
                         .requestMatchers("GET", "/api/books/**").permitAll()
                         .requestMatchers("GET", "/api/roles/**").authenticated()
                         .requestMatchers("GET", "/api/permissions/**").authenticated()
-                        .requestMatchers("GET", "/api/users/**").authenticated()
                         .requestMatchers("GET", "/api/orders/**").authenticated()
                         .requestMatchers("GET", "/api/order-details/**").authenticated()
                         
@@ -62,7 +61,8 @@ public class SecurityConfig {
                         .requestMatchers("PUT", "/api/permissions/**").hasRole("ADMIN")
                         .requestMatchers("DELETE", "/api/permissions/**").hasRole("ADMIN")
                         
-                        .requestMatchers("POST", "/api/users/**").permitAll()   
+                        .requestMatchers("POST", "/api/users/**").permitAll()  
+                        .requestMatchers("GET", "/api/users/**").authenticated()
                         .requestMatchers("PUT", "/api/users/**").hasRole("ADMIN")
                         .requestMatchers("DELETE", "/api/users/**").hasRole("ADMIN")
                         

@@ -38,6 +38,5 @@ public class UserCreationRequest {
     @Size(min = 1, max = 50, message = "Last name must be between 1 and 50 characters")
     private String lastName;
 
-    @NotEmpty(message = "At least one role must be assigned")
     private Set<Long> roleIds;
 }

@@ -5,19 +5,37 @@
       <form @submit.prevent="handleRegister">
         <div class="form-group">
           <label for="username">Username</label>
-          <input v-model="form.name" type="text" id="username" placeholder="Enter username" required />
+          <input
+            v-model="form.username"
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
           <input v-model="form.email" type="email" id="email" placeholder="Enter email" required />
         </div>
         <div class="form-group">
-          <label for="firstname">First Name:</label>
-          <input v-model="form.email" type="text" id="firstname" placeholder="Enter first name" required />
+          <label for="firstName">First Name:</label>
+          <input
+            v-model="form.firstName"
+            type="text"
+            id="firstName"
+            placeholder="Enter first name"
+            required
+          />
         </div>
         <div class="form-group">
-          <label for="lastname">Last Name:</label>
-          <input v-model="form.email" type="text" id="lasiname" placeholder="Enter last name" required />
+          <label for="lastName">Last Name:</label>
+          <input
+            v-model="form.lastName"
+            type="text"
+            id="lastName"
+            placeholder="Enter last name"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
@@ -56,8 +74,8 @@ const form = ref({
   password: '',
   confirmPassword: '',
   email: '',
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
 })
 
 const handleRegister = async () => {
@@ -67,7 +85,7 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await fetch('/api/users', {
+    const response = await fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,8 +94,8 @@ const handleRegister = async () => {
         username: form.value.username,
         password: form.value.password,
         email: form.value.email,
-        firstname: form.value.firstname,
-        lastname: form.value.lastname,
+        firstName: form.value.firstName,
+        lastName: form.value.lastName,
       }),
     })
 

@@ -3,11 +3,7 @@
     <!-- Section: Management -->
     <div class="menu-section">
       <h3 class="menu-title">Management</h3>
-      <el-menu
-        :default-active="activeMenu"
-        class="el-menu-vertical"
-        @select="handleSelect"
-      >
+      <el-menu :default-active="activeMenu" class="el-menu-vertical" @select="handleSelect">
         <el-menu-item index="add-book">
           <el-icon><Plus /></el-icon>
           <span>Add Book</span>
@@ -27,12 +23,8 @@
 
     <!-- Logout Button -->
     <div class="logout-section">
-      <el-button
-        type="danger"
-        plain
-        @click="handleLogout"
-      >
-      <el-icon><SwitchButton /></el-icon>
+      <el-button type="danger" plain @click="handleLogout">
+        <el-icon><SwitchButton /></el-icon>
         Logout
       </el-button>
     </div>
@@ -67,7 +59,7 @@ watch(
     } else if (newPath.includes('/admin/books-management')) {
       activeMenu.value = 'add-book'
     }
-  }
+  },
 )
 
 const handleSelect = (key: string) => {
@@ -77,10 +69,11 @@ const handleSelect = (key: string) => {
   else if (key === 'list-books') router.push('/admin/books-management/list-books')
 }
 
-
 const handleLogout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('username')
+  localStorage.removeItem('role')
+  localStorage.removeItem('roles')
   router.push('/auth/login')
 }
 </script>
