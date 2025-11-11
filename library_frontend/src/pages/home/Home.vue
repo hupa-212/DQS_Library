@@ -1,34 +1,57 @@
 <template>
-    <div class="slider-container">
-      <Slider />
-    </div>
+  <div class="slider-container">
+    <Slider />
+  </div>
 
-    <div class="book-section">
-      <h2>Popular Books</h2>
-      <div class="book-grid">
-        <BookItem v-for="book in books" :key="book.id" :book="book" />
-      </div>
+  <div class="book-section">
+    <h2>Popular Books</h2>
+    <div v-if="loading">Loading...</div>
+    <div v-else class="book-grid">
+      <BookItem v-for="book in books" :key="book.id" :book="book" />
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import Slider from '@/components/common/Slider.vue'
 import BookItem from '@/components/common/BookItem.vue'
 
-// mock data
-const books = [
-  { id: 1, title: 'Clean Code', author: 'Robert C. Martin', price: 150000, image: 'https://images-na.ssl-images-amazon.com/images/I/41xShlnTZTL._SX374_BO1,204,203,200_.jpg' },
-  { id: 2, title: 'The Pragmatic Programmer', author: 'Andrew Hunt', price: 180000, image: 'https://images-na.ssl-images-amazon.com/images/I/518FqJvR9aL._SX377_BO1,204,203,200_.jpg' },
-  { id: 3, title: 'Design Patterns', author: 'Erich Gamma', price: 200000, image: 'https://images-na.ssl-images-amazon.com/images/I/51k+e3WGLpL._SX376_BO1,204,203,200_.jpg' },
-  { id: 4, title: 'Refactoring', author: 'Martin Fowler', price: 170000, image: 'https://images-na.ssl-images-amazon.com/images/I/41SH-SvWPxL._SX396_BO1,204,203,200_.jpg' },
-  { id: 5, title: 'Clean Architecture', author: 'Robert C. Martin', price: 190000, image: 'https://images-na.ssl-images-amazon.com/images/I/41-sN-mzwKL._SX374_BO1,204,203,200_.jpg' },
-  { id: 6, title: 'Code Complete', author: 'Steve McConnell', price: 210000, image: 'https://images-na.ssl-images-amazon.com/images/I/41W4T3jA9hL._SX382_BO1,204,203,200_.jpg' },
-  { id: 7, title: 'You Don’t Know JS', author: 'Kyle Simpson', price: 160000, image: 'https://images-na.ssl-images-amazon.com/images/I/41+e3refnZL._SX331_BO1,204,203,200_.jpg' },
-  { id: 8, title: 'Introduction to Algorithms', author: 'Cormen', price: 250000, image: 'https://images-na.ssl-images-amazon.com/images/I/41SNJZ0RqSL._SX379_BO1,204,203,200_.jpg' },
-  { id: 9, title: 'JavaScript: The Good Parts', author: 'Douglas Crockford', price: 140000, image: 'https://images-na.ssl-images-amazon.com/images/I/41jEbK-jG+L._SX380_BO1,204,203,200_.jpg' },
-  { id: 10, title: 'The Mythical Man-Month', author: 'Fred Brooks', price: 180000, image: 'https://images-na.ssl-images-amazon.com/images/I/51MT0MbpD0L._SX331_BO1,204,203,200_.jpg' },
-]
+interface Category {
+  name: string
+}
+
+interface Book {
+  id: number
+  title: string
+  author: string
+  price: number
+  coverImageUrl?: string
+  category?: Category
+}
+
+const books = ref<Book[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:8080/api/books')
+
+    // ✅ Lấy tối đa 10 sách
+    books.value = res.data.data
+      .map((b: any) => ({
+        ...b,
+        category: b.category || { name: 'None' },
+        coverImageUrl: b.coverImageUrl || '',
+      }))
+      .slice(0, 10)
+  } catch (error) {
+    console.error('Error fetching books:', error)
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>
