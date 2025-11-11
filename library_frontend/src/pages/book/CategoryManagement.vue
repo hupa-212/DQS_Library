@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
+import { ref, computed, onMounted } from "vue"
 import axios from "axios"
 import { ElMessage } from "element-plus"
 import AdminMenu from "@/components/admin/AdminMenu.vue"
@@ -77,6 +77,9 @@ const categories = ref<any[]>([])
 const newCategoryName = ref("")
 const editingId = ref<number | null>(null)
 const editCategoryName = ref("")
+
+// ✅ computed: disable nút Add nếu input trống hoặc chỉ toàn khoảng trắng
+const isAddDisabled = computed(() => !newCategoryName.value.trim())
 
 // ✅ Load danh sách category
 const loadCategories = async () => {
@@ -89,22 +92,40 @@ const loadCategories = async () => {
   }
 }
 
-// ✅ Thêm category
+// ✅ Thêm category (có token)
 const addCategory = async () => {
-  if (!newCategoryName.value.trim()) {
-    ElMessage.warning("Please enter a category name")
+  if (isAddDisabled.value) {
+    ElMessage.warning("Please enter a valid category name")
     return
   }
+
+  const token = sessionStorage.getItem("token") || localStorage.getItem("token")
+  if (!token) {
+    ElMessage.error("You must be logged in as admin!")
+    return
+  }
+
   try {
-    await axios.post("http://localhost:8080/api/categories", {
-      name: newCategoryName.value.trim(),
-    })
+    await axios.post(
+      "http://localhost:8080/api/categories",
+      { name: newCategoryName.value.trim() },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ thêm token vào header
+          "Content-Type": "application/json",
+        },
+      }
+    )
     ElMessage.success("Category added successfully!")
     newCategoryName.value = ""
     await loadCategories()
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
-    ElMessage.error("Failed to add category")
+    if (err.response?.status === 403) {
+      ElMessage.error("You do not have permission to add categories.")
+    } else {
+      ElMessage.error("Failed to add category.")
+    }
   }
 }
 
@@ -126,14 +147,28 @@ const saveEdit = async (id: number) => {
     ElMessage.warning("Category name cannot be empty")
     return
   }
+
+  const token = sessionStorage.getItem("token") || localStorage.getItem("token")
+  if (!token) {
+    ElMessage.error("You must be logged in as admin!")
+    return
+  }
+
   try {
-    await axios.put(`http://localhost:8080/api/categories/${id}`, {
-      name: editCategoryName.value.trim(),
-    })
+    await axios.put(
+      `http://localhost:8080/api/categories/${id}`,
+      { name: editCategoryName.value.trim() },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
     ElMessage.success("Category updated successfully!")
     editingId.value = null
     await loadCategories()
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
     ElMessage.error("Failed to update category")
   }

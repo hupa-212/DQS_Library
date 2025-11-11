@@ -1,6 +1,6 @@
 <template>
   <el-aside width="260px" class="sidebar-container">
-
+    <!-- Section: Management -->
     <div class="menu-section">
       <h3 class="menu-title">Management</h3>
       <el-menu
@@ -22,50 +22,66 @@
           <el-icon><Folder /></el-icon>
           <span>Manage Categories</span>
         </el-menu-item>
-
       </el-menu>
     </div>
 
-  
+    <!-- Logout Button -->
+    <div class="logout-section">
+      <el-button
+        type="danger"
+        plain
+        @click="handleLogout"
+      >
+      <el-icon><SwitchButton /></el-icon>
+        Logout
+      </el-button>
+    </div>
   </el-aside>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { Folder, Collection, Plus } from '@element-plus/icons-vue'
+import { Folder, Collection, Plus, SwitchButton } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
 
 const activeMenu = ref('')
 
-  if (route.path.includes('/admin/books-management/categories')) {
-    activeMenu.value = 'list-categories'
-  } else if (route.path.includes('/admin/books-management/list-books')) {
-    activeMenu.value = 'list-books'
-  } else if (route.path.includes('/admin/books-management')) {
-    activeMenu.value = 'add-book'
-  }
+if (route.path.includes('/admin/books-management/categories')) {
+  activeMenu.value = 'list-categories'
+} else if (route.path.includes('/admin/books-management/list-books')) {
+  activeMenu.value = 'list-books'
+} else if (route.path.includes('/admin/books-management')) {
+  activeMenu.value = 'add-book'
+}
 
-  watch(
-    () => route.path,
-    (newPath) => {
-      if (newPath.includes('/admin/books-management/categories')) {
-        activeMenu.value = 'list-categories'
-      } else if (newPath.includes('/admin/books-management/list-books')) {
-        activeMenu.value = 'list-books'
-      } else if (newPath.includes('/admin/books-management')) {
-        activeMenu.value = 'add-book'
-      }
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath.includes('/admin/books-management/categories')) {
+      activeMenu.value = 'list-categories'
+    } else if (newPath.includes('/admin/books-management/list-books')) {
+      activeMenu.value = 'list-books'
+    } else if (newPath.includes('/admin/books-management')) {
+      activeMenu.value = 'add-book'
     }
-  )
+  }
+)
 
 const handleSelect = (key: string) => {
   activeMenu.value = key
   if (key === 'add-book') router.push('/admin/books-management')
   else if (key === 'list-categories') router.push('/admin/books-management/categories')
   else if (key === 'list-books') router.push('/admin/books-management/list-books')
+}
+
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
+  router.push('/auth/login')
 }
 </script>
 
@@ -75,6 +91,9 @@ const handleSelect = (key: string) => {
   border-right: 1px solid #e4e4e4;
   height: 100vh;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   overflow-y: auto;
 }
 
@@ -89,29 +108,17 @@ const handleSelect = (key: string) => {
   border-right: none;
 }
 
-.filter-section {
+.logout-section {
   margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
 }
 
-.filter-item {
-  margin-bottom: 20px;
-}
-
-.filter-label {
-  display: block;
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.filter-values {
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px;
-}
-
-.filter-actions {
+.logout-section .el-button {
+  width: 100%;
+  font-weight: 600;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 </style>

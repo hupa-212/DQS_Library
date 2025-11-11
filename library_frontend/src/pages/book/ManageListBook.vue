@@ -74,7 +74,7 @@ const books = ref<any[]>([])
 const loading = ref(true)
 
 const editDialog = ref<InstanceType<typeof EditBookDialog>>()
-
+const token = sessionStorage.getItem('token') || localStorage.getItem('token')
 
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -126,7 +126,12 @@ const deleteBook = async (id: number) => {
         type: 'warning',
       }
     )
-    await axios.delete(`http://localhost:8080/api/books/${id}`)
+    await axios.delete(`http://localhost:8080/api/books/${id}`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+    })
     ElMessage.success('Book deleted successfully!')
     await loadBooks()
   } catch (error: any) {

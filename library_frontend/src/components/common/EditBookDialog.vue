@@ -87,16 +87,32 @@ const emit = defineEmits<{
   (e: 'updated', book: any): void
 }>()
 
+
+const token = sessionStorage.getItem('token') || localStorage.getItem('token')
+
+
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:8080/api/categories')
+    if (!token) {
+      ElMessage.error('You must be logged in to load categories!')
+      return
+    }
+
+    const res = await axios.get('http://localhost:8080/api/categories', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     categories.value = res.data.data || res.data
-  } catch (err) {
+  } catch (err: any) {
     console.error('Failed to load categories', err)
+    if (err.response?.status === 403) {
+      ElMessage.error('Access denied: You are not allowed to view categories.')
+    } else {
+      ElMessage.error('Failed to load categories.')
+    }
   }
 })
 
-// Mở dialog từ parent
+// ✅ Mở dialog từ parent
 function openDialog(book: any) {
   Object.assign(form, {
     id: book.id,
@@ -111,22 +127,39 @@ function openDialog(book: any) {
   visible.value = true
 }
 
-// Submit form
+// ✅ Submit form (PUT book có token)
 async function submitForm() {
   try {
     if (!form.id) return
+    if (!token) {
+      ElMessage.error('You must be logged in to update books!')
+      return
+    }
+
     const url = `http://localhost:8080/api/books/${form.id}`
 
-    await axios.put(url, form)
+    await axios.put(url, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
     ElMessage.success('Book updated successfully!')
     visible.value = false
-    emit('updated', { ...form, category: categories.value.find(c => c.id === form.categoryId) })
-  } catch (err) {
+    emit('updated', {
+      ...form,
+      category: categories.value.find(c => c.id === form.categoryId)
+    })
+  } catch (err: any) {
     console.error('Error updating book:', err)
-    ElMessage.error('Failed to update book!')
+    if (err.response?.status === 403) {
+      ElMessage.error('Access denied: You do not have permission to edit books.')
+    } else {
+      ElMessage.error('Failed to update book!')
+    }
   }
 }
-
 
 defineExpose({ openDialog })
 </script>
