@@ -12,6 +12,7 @@ import ManageListBook from '@/pages/book/ManageListBook.vue'
 
 import LoginForm from '../components/login/LoginForm.vue'
 import RegisterForm from '../components/login/RegisterForm.vue'
+import BookDetail from '@/pages/book/BookDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,7 @@ const router = createRouter({
         { path: '', component: Home },
         { path: 'books', name: 'BookList', component: BookList },
         { path: 'your-books', name: 'AddBook', component: AddBook },
+          {path: '/books/:id', name: 'BookDetail', component: BookDetail,}
       ],
     },
 
@@ -43,7 +45,7 @@ const router = createRouter({
       path: '/auth/register',
       component: RegisterForm,
     },
-    // 404 fallback
+
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })
