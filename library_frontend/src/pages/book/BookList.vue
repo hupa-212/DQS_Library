@@ -1,7 +1,9 @@
 <template>
   <div class="book-list-page">
     <!-- Sidebar -->
-    <BookFilterMenu />
+    <BookFilterMenu
+      @category-selected="filterByCategory"
+      @price-selected="filterByPrice"  />
 
     <main class="book-list-container">
       <div class="header">
@@ -39,21 +41,13 @@
 
       <!-- Pagination -->
       <div class="pagination" v-if="filteredBooks.length > itemsPerPage">
-        <button
-          class="page-btn"
-          :disabled="currentPage === 1"
-          @click="prevPage"
-        >
+        <button class="page-btn" :disabled="currentPage === 1" @click="prevPage">
           ⬅ Prev
         </button>
 
         <span class="page-info">Page {{ currentPage }} / {{ totalPages }}</span>
 
-        <button
-          class="page-btn"
-          :disabled="currentPage === totalPages"
-          @click="nextPage"
-        >
+        <button class="page-btn" :disabled="currentPage === totalPages" @click="nextPage">
           Next ➡
         </button>
       </div>
@@ -62,39 +56,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
 import BookFilterMenu from '@/components/book/BookFilter.vue'
 import BookItem from '@/components/common/BookItem.vue'
+
+interface Book {
+  id: number
+  title: string
+  author: string
+  price: number
+  coverImageUrl?: string
+  category?: { id: number; name: string }
+}
+
+const books = ref<Book[]>([])
+const loading = ref(true)
 
 const sortOption = ref('default')
 const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 9
+const selectedCategory = ref<number | null>(null)
+const selectedPriceRange = ref<{ min: number; max: number | null }>({ min: 0, max: null })
 
-const books = [
-  { id: 1, title: 'Clean Code', author: 'Robert C. Martin', price: 150000, image: 'https://images-na.ssl-images-amazon.com/images/I/41xShlnTZTL._SX374_BO1,204,203,200_.jpg' },
-  { id: 2, title: 'The Pragmatic Programmer', author: 'Andrew Hunt', price: 180000, image: 'https://images-na.ssl-images-amazon.com/images/I/518FqJvR9aL._SX377_BO1,204,203,200_.jpg' },
-  { id: 3, title: 'Design Patterns', author: 'Erich Gamma', price: 200000, image: 'https://images-na.ssl-images-amazon.com/images/I/51k+e3WGLpL._SX376_BO1,204,203,200_.jpg' },
-  { id: 4, title: 'Refactoring', author: 'Martin Fowler', price: 170000, image: 'https://images-na.ssl-images-amazon.com/images/I/41SH-SvWPxL._SX396_BO1,204,203,200_.jpg' },
-  { id: 5, title: 'Clean Architecture', author: 'Robert C. Martin', price: 190000, image: 'https://images-na.ssl-images-amazon.com/images/I/41-sN-mzwKL._SX374_BO1,204,203,200_.jpg' },
-  { id: 6, title: 'Code Complete', author: 'Steve McConnell', price: 210000, image: 'https://images-na.ssl-images-amazon.com/images/I/41W4T3jA9hL._SX382_BO1,204,203,200_.jpg' },
-  { id: 7, title: 'You Don’t Know JS', author: 'Kyle Simpson', price: 160000, image: 'https://images-na.ssl-images-amazon.com/images/I/41+e3refnZL._SX331_BO1,204,203,200_.jpg' },
-  { id: 8, title: 'Introduction to Algorithms', author: 'Cormen', price: 250000, image: 'https://images-na.ssl-images-amazon.com/images/I/41SNJZ0RqSL._SX379_BO1,204,203,200_.jpg' },
-  { id: 9, title: 'JavaScript: The Good Parts', author: 'Douglas Crockford', price: 140000, image: 'https://images-na.ssl-images-amazon.com/images/I/41jEbK-jG+L._SX380_BO1,204,203,200_.jpg' },
-  { id: 10, title: 'The Mythical Man-Month', author: 'Fred Brooks', price: 180000, image: 'https://images-na.ssl-images-amazon.com/images/I/51MT0MbpD0L._SX331_BO1,204,203,200_.jpg' },
-]
 
-/* 🔎 Lọc sách theo từ khóa */
+const filterByPrice = (range: { min: number; max: number | null }) => {
+  selectedPriceRange.value = range
+}
+
+const filterByCategory = (id: number | null) => {
+  selectedCategory.value = id
+  currentPage.value = 1 
+}
+
 const filteredBooks = computed(() => {
   const query = searchQuery.value.toLowerCase()
-  return books.filter(
-    (book) =>
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
-  )
+  return books.value.filter((book) => {
+    const matchesQuery =
+      book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query)
+    const matchesCategory =
+      !selectedCategory.value || book.category?.id === selectedCategory.value
+    const matchesPrice =
+      (!selectedPriceRange.value.max ||
+        (book.price >= selectedPriceRange.value.min &&
+         book.price <= selectedPriceRange.value.max)) ||
+      (selectedPriceRange.value.max === null && book.price >= selectedPriceRange.value.min)
+    return matchesQuery && matchesCategory && matchesPrice
+  })
 })
 
-/* 🔽 Sắp xếp sách */
+
 const sortedBooks = computed(() => {
   let sorted = [...filteredBooks.value]
   switch (sortOption.value) {
@@ -111,20 +123,38 @@ const sortedBooks = computed(() => {
   }
 })
 
-/* 📄 Phân trang */
-const totalPages = computed(() => Math.ceil(sortedBooks.value.length / itemsPerPage))
+const totalPages = computed(() =>
+  Math.ceil(sortedBooks.value.length / itemsPerPage)
+)
+
 const paginatedBooks = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
   return sortedBooks.value.slice(start, end)
 })
 
+// Pagination controls
 const nextPage = () => {
   if (currentPage.value < totalPages.value) currentPage.value++
 }
 const prevPage = () => {
   if (currentPage.value > 1) currentPage.value--
 }
+
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:8080/api/books')
+    books.value = res.data.data.map((b: any) => ({
+      ...b,
+      category: b.category || { id: 0, name: 'None' },
+      coverImageUrl: b.coverImageUrl || '',
+    }))
+  } catch (error) {
+    console.error('Error fetching books:', error)
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>

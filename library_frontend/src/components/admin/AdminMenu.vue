@@ -26,44 +26,7 @@
       </el-menu>
     </div>
 
-    <el-divider />
-
-    <div class="filter-section">
-      <h3 class="menu-title">Filter</h3>
-
-      <div class="filter-item">
-        <span class="filter-label">Price Range</span>
-        <el-slider
-          v-model="priceRange"
-          range
-          :max="1000000"
-          :step="10000"
-          show-stops
-        />
-        <div class="filter-values">
-          <span>{{ priceRange[0].toLocaleString() }}</span> -
-          <span>{{ priceRange[1].toLocaleString() }}</span>
-        </div>
-      </div>
-
-      <div class="filter-item">
-        <span class="filter-label">Created Date</span>
-        <el-date-picker
-          v-model="dateRange"
-          type="daterange"
-          range-separator="→"
-          start-placeholder="From"
-          end-placeholder="To"
-          format="DD/MM/YYYY"
-          value-format="YYYY-MM-DD"
-        />
-      </div>
-
-      <div class="filter-actions">
-        <el-button type="primary" @click="applyFilters">Apply</el-button>
-        <el-button @click="resetFilters">Reset</el-button>
-      </div>
-    </div>
+  
   </el-aside>
 </template>
 
