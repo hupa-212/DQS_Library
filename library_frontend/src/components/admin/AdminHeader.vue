@@ -15,9 +15,7 @@
         :ellipsis="false"
         @select="handleSelect"
       >
-        <el-menu-item index="AdminHome" >Home</el-menu-item>
         <el-menu-item index="Books Management">Books Management</el-menu-item>
-        <!-- <el-menu-item index="Profile">Profile</el-menu-item> -->
       </el-menu>
     </div>
 
@@ -31,11 +29,10 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const activeIndex = ref('AdminHome')
+const activeIndex = ref('Books Management')
 
 const handleSelect = (key: string) => {
-  if (key === 'AdminHome') router.push('/admin')
-  else if (key === 'Books Management') router.push('/admin/books-management')
+  if (key === 'Books Management') router.push('/admin')
   else if (key === 'Profile') router.push('/admin/profile')
 }
 </script>
