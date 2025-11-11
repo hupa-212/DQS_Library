@@ -17,7 +17,6 @@
       >
         <el-menu-item index="Home" >Home</el-menu-item>
         <el-menu-item index="Books">Books</el-menu-item>
-        <el-menu-item index="Your Books">Your Books</el-menu-item>
       </el-menu>
     </div>
 
@@ -36,7 +35,6 @@ const activeIndex = ref('Home')
 const handleSelect = (key: string, keyPath: string[]) => {
 if (key === 'Home') router.push('/')
   else if (key === 'Books') router.push('/books')
-  else if (key === 'Your Books') router.push('/your-books')
 }
 </script>
 

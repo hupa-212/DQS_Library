@@ -1,6 +1,6 @@
 <template>
   <el-card class="book-item" shadow="hover">
-    <img :src="book.image" alt="Book cover" class="book-cover" />
+    <img :src="book.coverImageUrl" alt="Book cover" class="book-cover" />
 
     <div class="book-info">
       <h3 class="book-title">{{ book.title }}</h3>
@@ -28,9 +28,9 @@ const props = defineProps({
   },
 })
 
-// ✅ Giả lập điều hướng (chưa có trang chi tiết)
+
 const viewDetails = (id: number) => {
-  alert(`Book ID: ${id}`)
+  router.push({ name: 'BookDetail', params: { id } })
 }
 </script>
 
