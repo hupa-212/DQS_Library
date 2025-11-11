@@ -1,12 +1,9 @@
 <template>
   <div class="menu-container">
-
-    <el-page-header :icon="ArrowLeft">
-      <template #content>
-        <span class="text-large font-600 mr-3">Title</span>
-      </template>
-    </el-page-header>
-
+        <img src="@/assets/ada8a861-db7d-45d3-accb-905caa8c9891-removebg-preview.png" 
+             alt="Library Logo" 
+             class="logo-img"/>
+             
     <div class="menu-center">
       <el-menu
         :default-active="activeIndex"
@@ -26,7 +23,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ArrowLeft } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -60,5 +56,10 @@ if (key === 'Home') router.push('/')
 
 .right-placeholder {
   width: 120px;
+}
+
+.logo-img {
+  height: 60px; 
+  object-fit: contain;
 }
 </style>

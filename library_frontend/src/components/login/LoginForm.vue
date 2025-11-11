@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 const form = ref({
@@ -36,20 +37,22 @@ const form = ref({
   password: '',
 })
 
+
 const handleLogin = async () => {
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch('http://localhost:8080/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(form.value),
     })
+    console.log(form)
 
     if (response.ok) {
       const data = await response.json()
       localStorage.setItem('token', data.token)
-      router.push('/home')
+      router.push('/admin/books-management')
     }
   } catch (error) {
     console.error('Login failed:', error)
