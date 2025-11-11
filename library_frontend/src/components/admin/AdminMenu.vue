@@ -31,35 +31,41 @@
 </template>
 
 <script lang="ts" setup>
-import { ref} from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { Folder, Collection, Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
-const activeMenu = ref('add-book')
+const route = useRoute()
 
-const priceRange = ref<[number, number]>([0, 500000])
-const dateRange = ref<[string, string] | null>(null)
+const activeMenu = ref('')
 
+  if (route.path.includes('/admin/books-management/categories')) {
+    activeMenu.value = 'list-categories'
+  } else if (route.path.includes('/admin/books-management/list-books')) {
+    activeMenu.value = 'list-books'
+  } else if (route.path.includes('/admin/books-management')) {
+    activeMenu.value = 'add-book'
+  }
+
+  watch(
+    () => route.path,
+    (newPath) => {
+      if (newPath.includes('/admin/books-management/categories')) {
+        activeMenu.value = 'list-categories'
+      } else if (newPath.includes('/admin/books-management/list-books')) {
+        activeMenu.value = 'list-books'
+      } else if (newPath.includes('/admin/books-management')) {
+        activeMenu.value = 'add-book'
+      }
+    }
+  )
 
 const handleSelect = (key: string) => {
   activeMenu.value = key
   if (key === 'add-book') router.push('/admin/books-management')
   else if (key === 'list-categories') router.push('/admin/books-management/categories')
   else if (key === 'list-books') router.push('/admin/books-management/list-books')
-}
-
-const applyFilters = () => {
-  console.log('Apply filters:', {
-    priceRange: priceRange.value,
-    dateRange: dateRange.value,
-  })
-  // 🔹 Bạn có thể emit event hoặc gọi API tại đây
-}
-
-const resetFilters = () => {
-  priceRange.value = [0, 500000]
-  dateRange.value = null
 }
 </script>
 
