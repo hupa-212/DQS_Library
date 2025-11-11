@@ -69,6 +69,18 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
+    public UserResponse getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
+        if (user.getIsDeleted()) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+
+        return userMapper.toUserResponse(user);
+    }
+
+
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll()
                 .stream()

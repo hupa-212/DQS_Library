@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.api.bookstore.library_backend.dto.request.UserCreationRequest;
@@ -52,6 +53,23 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")  
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
         UserResponse user = userService.getUserById(id);
+        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
+                .message("User retrieved successfully")
+                .statusCode(HttpStatus.OK.value())
+                .data(user)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiResponse<UserResponse>> getCurrentUser() {
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+        
+        UserResponse user = userService.getUserByUsername(username);
+        
         ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
                 .message("User retrieved successfully")
                 .statusCode(HttpStatus.OK.value())

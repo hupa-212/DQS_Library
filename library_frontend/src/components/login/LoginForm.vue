@@ -5,7 +5,13 @@
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="username">Username:</label>
-          <input v-model="form.username" type="text" id="username" placeholder="Nhập tên đăng nhập" required />
+          <input
+            v-model="form.username"
+            type="text"
+            id="username"
+            placeholder="Nhập tên đăng nhập"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
@@ -36,7 +42,6 @@ const form = ref({
   username: '',
   password: '',
 })
-
 
 const handleLogin = async () => {
   try {
