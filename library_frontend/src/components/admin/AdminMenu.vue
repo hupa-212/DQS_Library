@@ -70,10 +70,10 @@ const handleSelect = (key: string) => {
 }
 
 const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('username')
-  localStorage.removeItem('role')
-  localStorage.removeItem('roles')
+  sessionStorage.removeItem('token')
+  sessionStorage.removeItem('username')
+  sessionStorage.removeItem('role')
+  sessionStorage.removeItem('roles')
   router.push('/auth/login')
 }
 </script>
