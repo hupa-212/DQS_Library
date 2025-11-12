@@ -29,7 +29,7 @@ const router = useRouter()
 const activeIndex = ref('Books Management')
 
 const handleSelect = (key: string) => {
-  if (key === 'Books Management') router.push('/admin')
+  if (key === 'Books Management') router.push('/admin/books-management')
   else if (key === 'Profile') router.push('/admin/profile')
 }
 </script>
