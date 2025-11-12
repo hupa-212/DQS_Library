@@ -4,11 +4,11 @@ const CATEGORY_URL = 'http://localhost:8080/api/categories'
 
 export const getCategories = async () => {
   const res = await axios.get(CATEGORY_URL)
-  return res.data.data 
+  return res.data.data
 }
 
 export const createCategory = async (categoryData) => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   return axios.post('http://localhost:8080/api/categories', categoryData, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -18,7 +18,7 @@ export const createCategory = async (categoryData) => {
 }
 
 export const createBook = async (bookData) => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   return axios.post('http://localhost:8080/api/books', bookData, {
     headers: {
       Authorization: `Bearer ${token}`,

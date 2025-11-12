@@ -72,7 +72,7 @@ const handleLogin = async () => {
     const loginData = await loginResponse.json()
     const token = loginData.data.token
 
-    localStorage.setItem('token', token)
+    sessionStorage.setItem('token', token)
 
     const userResponse = await fetch('http://localhost:8080/api/users/me', {
       method: 'GET',
